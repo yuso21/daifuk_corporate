@@ -111,6 +111,7 @@ function openWorksModal(element) {
     }
     
     modal.classList.add('active');
+    document.body.classList.add('modal-open');
     document.body.style.overflow = 'hidden';
   }
 }
@@ -120,6 +121,7 @@ function closeWorksModal() {
   const modalContent = document.getElementById('worksModalContent');
   if (modal) {
     modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
     document.body.style.overflow = '';
     // Optional: clear content after transition
     setTimeout(() => {
