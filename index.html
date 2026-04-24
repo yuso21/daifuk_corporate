@@ -30,6 +30,7 @@
 
 <!-- Hero Section -->
 <section class="hero" id="top">
+  <div class="hero-bg-anim"></div>
   <img src="assets/daifuk_logo_FV2.svg" class="hero-logo-spin" alt="">
   <img src="assets/daifuk_logo_FV1.svg" class="hero-logo-base" alt="DAIFUK">
   <div class="hero-scroll">SCROLL</div>
@@ -103,12 +104,6 @@
     <div class="works-header reveal">
       <h2 class="works-title">Works</h2>
     </div>
-    <div class="works-tabs reveal">
-      <button class="tab-btn active">All</button>
-      <button class="tab-btn">Graphic</button>
-      <button class="tab-btn">Web</button>
-      <button class="tab-btn">Movie</button>
-    </div>
     <div class="works-grid reveal">
       
       <!-- Group 1: JAF様 採用パンフレット -->
@@ -127,7 +122,7 @@
       </div>
 
       <!-- Group 2: JAF様 採用サイト -->
-      <div class="work-item" onclick="openWorksModal(this)">
+      <div class="work-item" onclick="openWorksModal(this)" data-url="https://jaf.or.jp/recruit" data-url-label="サイトを見る">
         <img class="work-thumb" src="assets/portfolio_2_JAF様 採用サイト_1.png" alt="JAF様 採用サイト">
         <div class="work-item-inner">
           <div class="work-title">
@@ -157,7 +152,7 @@
       </div>
 
       <!-- Group 4: アークエッジ・スペース様 製品紹介動画 -->
-      <div class="work-item" onclick="openWorksModal(this)">
+      <div class="work-item" onclick="openWorksModal(this)" data-url="https://youtu.be/ClyMp5nhiLk" data-url-label="動画を見る">
         <img class="work-thumb" src="assets/portfolio_4_アークエッジ・スペース様_製品紹介動画_1.png" alt="アークエッジ・スペース様 製品紹介動画">
         <div class="work-item-inner">
           <div class="work-title">

@@ -99,9 +99,17 @@ function openWorksModal(element) {
   const modal = document.getElementById('worksModal');
   const modalContent = document.getElementById('worksModalContent');
   const gallery = element.querySelector('.work-gallery');
+  const url = element.getAttribute('data-url');
+  const urlLabel = element.getAttribute('data-url-label');
   
   if (modal && modalContent && gallery) {
     modalContent.innerHTML = gallery.innerHTML;
+    
+    // Append button if URL exists
+    if (url && urlLabel) {
+      modalContent.innerHTML += `<a href="${url}" target="_blank" class="modal-action-btn">${urlLabel}</a>`;
+    }
+    
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
