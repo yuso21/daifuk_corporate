@@ -21,17 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateRing();
 
-    document.querySelectorAll('a, button, input, textarea, .contact-link, .work-item').forEach(el => {
-      el.addEventListener('mouseenter', () => {
+    // Use event delegation for hover scaling on standard & dynamic elements (modal close, links, buttons, cards)
+    document.addEventListener('mouseover', e => {
+      const target = e.target.closest('a, button, input, textarea, .contact-link, .work-item, .works-modal-close, .modal-action-btn');
+      if (target) {
         cursor.style.transform = 'translate(-50%,-50%) scale(2)';
         ring.style.width = '56px';
         ring.style.height = '56px';
-      });
-      el.addEventListener('mouseleave', () => {
+      }
+    });
+
+    document.addEventListener('mouseout', e => {
+      const target = e.target.closest('a, button, input, textarea, .contact-link, .work-item, .works-modal-close, .modal-action-btn');
+      if (target) {
         cursor.style.transform = 'translate(-50%,-50%) scale(1)';
         ring.style.width = '36px';
         ring.style.height = '36px';
-      });
+      }
     });
   }
 
@@ -56,20 +62,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Logo and Nav link color inversion on dark sections
+  // Logo and Nav link color inversion on dark sections & SP nav scroll visibility
   const navLogo = document.querySelector('.nav-logo');
   const navLinks = document.querySelector('.nav-links');
   const darkSections = document.querySelectorAll('.services, .about, footer');
+  const promiseSection = document.getElementById('promise');
+  const navElement = document.querySelector('nav');
   
   if (navLogo && darkSections.length > 0) {
     window.addEventListener('scroll', () => {
-      // Disable inversion on mobile layout
+      // Mobile layout scroll handling
       if (window.innerWidth <= 900) {
         navLogo.classList.remove('invert-logo');
         if (navLinks) navLinks.classList.remove('invert-links');
+        
+        // Show/hide SP nav when scrolling past Hero section to Promise
+        if (promiseSection && navElement) {
+          if (window.scrollY >= promiseSection.offsetTop - 80) {
+            navElement.classList.add('nav-visible');
+          } else {
+            navElement.classList.remove('nav-visible');
+          }
+        }
         return;
       }
       
+      // Desktop layout inversion handling
       const logoRect = navLogo.getBoundingClientRect();
       const logoMid = logoRect.top + (logoRect.height / 2);
       
