@@ -1,162 +1,388 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAIFUK - CORPORATE PROFILE</title>
-    <meta name="description" content="DAIFUK は「つくる」を楽しくすることを約束します。グラフィックデザイン、Web、動画、3DCGまで幅広く対応するデザインパートナーです。">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAIFUK - CORPORATE PROFILE</title>
+<meta name="description" content="DAIFUK は「つくる」を楽しくすることを約束します。グラフィックデザイン、Web、動画、3DCGまで幅広く対応するデザインパートナーです。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="custom-cursor"></div>
-    
-    <nav class="sidebar">
-        <div class="sidebar-container">
-            <a href="#" class="logo">
-                <img src="assets/daifuk_d_logo.png" alt="DAIFUK Logo" class="nav-logo">
-            </a>
-            <ul class="nav-links">
-                <li><a href="#promise">Promise</a></li>
-                <li><a href="#design">Design</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Global Nav (Left Sidebar) -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="assets/daifuk_long_logo.svg" alt="DAIFUK">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#promise">Promise</a></li>
+    <li><a href="#services">Design</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="top">
+  <div class="hero-bg-anim"></div>
+  <img src="assets/daifuk_logo_FV2.svg" class="hero-logo-spin spin-1" alt="">
+  <img src="assets/daifuk_logo_FV2.svg" class="hero-logo-spin spin-2" alt="">
+  <img src="assets/daifuk_logo_FV2.svg" class="hero-logo-spin spin-3" alt="">
+  <img src="assets/daifuk_logo_FV1.svg" class="hero-logo-base" alt="DAIFUK">
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- Promise Section -->
+<section class="promise" id="promise">
+  <div class="section-inner promise-inner">
+    <div class="reveal">
+      <div class="section-label">PROMISE</div>
+      <!-- Changed display from flex/block context to ensure <br> triggers immediately, using specific class styling or inline CSS isn't fully needed, but we keep the structure crisp -->
+      <h2 class="promise-heading" style="font-family: 'Noto Sans JP', sans-serif; font-size: clamp(40px, 6vw, 72px); letter-spacing: 0.1em; line-height: 1.4; word-break: keep-all;">
+        わくわく、<br>
+        ぎっしり。
+      </h2>
+    </div>
+    <div class="reveal" style="transition-delay:0.15s">
+      <p class="promise-text">
+        <strong style="display:block; font-size:18px; line-height:2; margin-bottom:32px;">
+          つくることは、楽しいこと。<br>
+          楽しさを丁寧に詰め込んだデザインは<br>
+          人の心をうごかします。
+        </strong>
+        見るヒト・使うヒトの目線でデザインのあり方を考え、お客さまと一緒にアイデアを練り、作り上げることを大切にします。ロゴや冊子などのグラフィックデザインから動画、Webまで幅広く行っています。
+      </p>
+      <p class="promise-text">
+        わくわくがあふれるデザインを一緒に作り上げましょう。
+      </p>
+      <p class="promise-text" style="font-weight:700; margin-top:48px; border-top:1px solid #ccc; padding-top:24px;">
+        DAIFUK は「つくる」を楽しくすることを約束します。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Services (Design) Section -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <div class="services-header reveal">
+      <h2 class="services-title">Our <span>Services</span></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-info">
+          <div class="service-name">Concept<span>企画・コンセプト</span></div>
+          <p class="service-desc">誰に、何を、どう伝えるかを整理し、デザインの軸となる考え方をつくります。</p>
         </div>
-        <div class="hamburger">
-            <span></span><span></span><span></span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.1s">
+        <div class="service-num">02</div>
+        <div class="service-info">
+          <div class="service-name">Creative<span>デザイン制作</span></div>
+          <p class="service-desc">グラフィック、Web、映像など、媒体を横断して一貫したデザインを制作します。</p>
         </div>
-    </nav>
-
-    <div class="main-content">
-        <main>
-        <!-- Hero Section -->
-        <section id="hero" class="hero">
-            <div class="hero-bg">
-                <div class="gradient-sphere"></div>
-            </div>
-            <div class="container hero-content">
-                <div class="hero-brand fade-up">
-                    <img src="assets/daifuk_d_logo.png" alt="DAIFUK Logo" class="hero-logo-large">
-                    <h1>DAIFUK</h1>
-                </div>
-                <p class="fade-up delay-1">Design & Direction</p>
-                <div class="scroll-indicator fade-up delay-2">
-                    <span>Scroll</span>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Promise Section -->
-        <section id="promise" class="promise section">
-            <div class="container">
-                <div class="section-header fade-up">
-                    <h2 class="section-title">Promise</h2>
-                    <h3 class="section-subtitle">わくわく、ぎっしり。</h3>
-                </div>
-                <div class="promise-content">
-                    <div class="promise-text fade-up delay-1">
-                        <p class="highlight-text">つくることは、楽しいこと。<br>楽しさを丁寧に詰め込んだデザインは<br>人の心をうごかします。</p>
-                        <p>見るヒト・使うヒトの目線でデザインのあり方を考え、お客さまと一緒にアイデアを練り、作り上げることを大切にします。ロゴや冊子などのグラフィックデザインから動画、Web、3DCGまで幅広く行っています。</p>
-                        <p>わくわくがあふれるデザインを一緒に作り上げましょう。</p>
-                        <p class="brand-promise">DAIFUK は「つくる」を楽しくすることを約束します。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Design Section (Unified Workflow) -->
-        <section id="design" class="services section">
-            <div class="container">
-                <h2 class="section-title fade-up">Design</h2>
-                <p class="section-desc fade-up delay-1">媒体に縛られず、最適な形でデザインを設計します。<br>媒体ごとに分けるのではなく、ひとつの体験として設計します。</p>
-                
-                <div class="services-list fade-up delay-2">
-                    <!-- 01 Concept -->
-                    <div class="service-item">
-                        <div class="service-header">
-                            <span class="service-number">01</span>
-                            <div class="service-title-group">
-                                <span class="service-en">Concept</span>
-                                <h3 class="service-title">企画・コンセプト</h3>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p>誰に、何を、どう伝えるかを整理し、デザインの軸となる考え方をつくります。</p>
-                        </div>
-                    </div>
-
-                    <!-- 02 Design -->
-                    <div class="service-item">
-                        <div class="service-header">
-                            <span class="service-number">02</span>
-                            <div class="service-title-group">
-                                <span class="service-en">Graphic / Web / Movie / 3DCG</span>
-                                <h3 class="service-title">デザイン制作</h3>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p>グラフィック、Web、映像、3DCGなど、媒体を横断して一貫したデザインを制作します。</p>
-                        </div>
-                    </div>
-
-                    <!-- 03 Direction -->
-                    <div class="service-item">
-                        <div class="service-header">
-                            <span class="service-number">03</span>
-                            <div class="service-title-group">
-                                <span class="service-en">Direction</span>
-                                <h3 class="service-title">ディレクション</h3>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p>最適なチームを編成し、制作から公開までプロジェクト全体を管理します。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact section">
-            <div class="container">
-                <div class="contact-card glass-section fade-up">
-                    <h2 class="section-title">お問い合わせ</h2>
-                    <div class="contact-details">
-                        <div class="contact-person">
-                            <span class="name">小林 祐太</span>
-                            <span class="role">Director / Designer</span>
-                        </div>
-                        <div class="contact-info">
-                            <a href="tel:080-3292-2443" class="contact-link">080-3292-2443</a>
-                            <a href="mailto:kobayashi@daifuk.jp" class="contact-link">kobayashi@daifuk.jp</a>
-                        </div>
-                        
-                        <form action="mailto:kobayashi@daifuk.jp" method="POST" enctype="text/plain" class="contact-form">
-                            <input type="text" name="会社名" placeholder="会社名" required>
-                            <input type="text" name="お名前" placeholder="お名前" required>
-                            <input type="email" name="メールアドレス" placeholder="メールアドレス" required>
-                            <textarea name="お問い合わせ内容" placeholder="お問い合わせ内容" rows="5" required></textarea>
-                            <button type="submit" class="submit-btn" formtarget="_blank">送信する</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    </div> <!-- .main-content end -->
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 DAIFUK. All Rights Reserved.</p>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.2s">
+        <div class="service-num">03</div>
+        <div class="service-info">
+          <div class="service-name">Direction<span>ディレクション</span></div>
+          <p class="service-desc">最適なチームを編成し、制作から公開までプロジェクト全体を管理します。</p>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<!-- Works Section -->
+<section class="works" id="works">
+  <div class="section-inner">
+    <div class="works-header reveal">
+      <h2 class="works-title">Works</h2>
+    </div>
+    <div class="works-grid reveal">
+      
+      <!-- Group 1: JAF様 採用パンフレット -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_1_JAF様 採用パンフレット_1.png" alt="JAF様 採用パンフレット">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">JAF様</span><br>
+            <span class="work-project">採用パンフレット</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_1_JAF様 採用パンフレット_1.png" alt="">
+          <img src="assets/portfolio_1_JAF様 採用パンフレット_2.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 2: JAF様 採用サイト -->
+      <div class="work-item" onclick="openWorksModal(this)" data-url="https://jaf.or.jp/recruit" data-url-label="サイトを見る">
+        <img class="work-thumb" src="assets/portfolio_2_JAF様 採用サイト_1.png" alt="JAF様 採用サイト">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">JAF様</span><br>
+            <span class="work-project">採用サイト</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_2_JAF様 採用サイト_1.png" alt="">
+          <img src="assets/portfolio_2_JAF様 採用サイト_2.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 3: アークエッジ・スペース様 会社案内 -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_3_アークエッジ・スペース様_会社案内_1.png" alt="アークエッジ・スペース様 会社案内">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">アークエッジ・スペース様</span><br>
+            <span class="work-project">会社案内</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_3_アークエッジ・スペース様_会社案内_1.png" alt="">
+          <img src="assets/portfolio_3_アークエッジ・スペース様_会社案内_２.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 4: アークエッジ・スペース様 製品紹介動画 -->
+      <div class="work-item" onclick="openWorksModal(this)" data-url="https://youtu.be/ClyMp5nhiLk" data-url-label="動画を見る">
+        <img class="work-thumb" src="assets/portfolio_4_アークエッジ・スペース様_製品紹介動画_1.png" alt="アークエッジ・スペース様 製品紹介動画">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">アークエッジ・スペース様</span><br>
+            <span class="work-project">製品紹介動画</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_4_アークエッジ・スペース様_製品紹介動画_1.png" alt="">
+          <img src="assets/portfolio_4_アークエッジ・スペース様_製品紹介動画_2.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 5: maruoPR様 CI (Temporarily Hidden) -->
+      <!--
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_5_maruoPR様 CI_1.png" alt="maruoPR様 CI">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">maruoPR様</span><br>
+            <span class="work-project">CI</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_5_maruoPR様 CI_1.png" alt="">
+          <img src="assets/portfolio_5_maruoPR様 CI_2.png" alt="">
+        </div>
+      </div>
+      -->
+
+      <!-- Group 7: 伊藤園様 美活フェア 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_7_伊藤園様_美活フェア 店頭販促POP_1.png" alt="伊藤園様 美活フェア 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">美活フェア 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_7_伊藤園様_美活フェア 店頭販促POP_1.png" alt="">
+          <img src="assets/portfolio_7_伊藤園様_美活フェア 店頭販促POP_2.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 8: 伊藤園様 ジャスミンティー 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_8_伊藤園様_ジャスミンティー 店頭販促POP_1.png" alt="伊藤園様 ジャスミンティー 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">ジャスミンティー 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_8_伊藤園様_ジャスミンティー 店頭販促POP_1.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 9: 伊藤園様 黒豆茶 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_9_伊藤園様_黒豆茶 店頭販促POP_1.png" alt="伊藤園様 黒豆茶 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">黒豆茶 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_9_伊藤園様_黒豆茶 店頭販促POP_1.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 10: 伊藤園様 ビタミン野菜・鉄分野菜 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_10_伊藤園様_ビタミン野菜・鉄分野菜 店頭販促POP_1 .png" alt="伊藤園様 ビタミン野菜・鉄分野菜 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">ビタミン野菜・鉄分野菜 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_10_伊藤園様_ビタミン野菜・鉄分野菜 店頭販促POP_1 .png" alt="">
+          <img src="assets/portfolio_10_伊藤園様_ビタミン野菜・鉄分野菜 店頭販促POP_2.png" alt="">
+          <img src="assets/portfolio_10_伊藤園様_ビタミン野菜・鉄分野菜 店頭販促POP_3.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 11: 伊藤園様 理想のにんじん・理想のトマト 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_11_伊藤園様_理想のにんじん・理想のトマト 店頭販促POP_1.png" alt="伊藤園様 理想のにんじん・理想のトマト 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">理想のにんじん・理想のトマト 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_11_伊藤園様_理想のにんじん・理想のトマト 店頭販促POP_1.png" alt="">
+          <img src="assets/portfolio_11_伊藤園様_理想のにんじん・理想のトマト 店頭販促POP_２.png" alt="">
+          <img src="assets/portfolio_11_伊藤園様_理想のにんじん・理想のトマト 店頭販促POP_3.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 12: 伊藤園様 マロン烏龍 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_12_伊藤園様_マロン烏龍 店頭販促POP_1.png" alt="伊藤園様 マロン烏龍 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">マロン烏龍 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_12_伊藤園様_マロン烏龍 店頭販促POP_1.png" alt="">
+          <img src="assets/portfolio_12_伊藤園様_マロン烏龍 店頭販促POP_２.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 13: 伊藤園様 ヨーグルセーキ 店頭販促POP -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_13_伊藤園様_ヨーグルセーキ 店頭販促POP_1.png" alt="伊藤園様 ヨーグルセーキ 店頭販促POP">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">伊藤園様</span><br>
+            <span class="work-project">ヨーグルセーキ 店頭販促POP</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_13_伊藤園様_ヨーグルセーキ 店頭販促POP_1.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 14: オトナリマート様 チラシ -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_14_オトナリマート様_チラシ_１.png" alt="オトナリマート様 チラシ">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">オトナリマート様</span><br>
+            <span class="work-project">チラシ</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_14_オトナリマート様_チラシ_１.png" alt="">
+          <img src="assets/portfolio_14_オトナリマート様_チラシ_２.png" alt="">
+        </div>
+      </div>
+
+      <!-- Group 6: ニクイボウズ様 CI -->
+      <div class="work-item" onclick="openWorksModal(this)">
+        <img class="work-thumb" src="assets/portfolio_6_ニクイボウズ様 CI_1.png" alt="ニクイボウズ様 CI">
+        <div class="work-item-inner">
+          <div class="work-title">
+            <span class="work-client">ニクイボウズ様</span><br>
+            <span class="work-project">CI</span>
+          </div>
+        </div>
+        <div class="work-gallery" style="display: none;">
+          <img src="assets/portfolio_6_ニクイボウズ様 CI_1.png" alt="">
+          <img src="assets/portfolio_6_ニクイボウズ様 CI_2.png" alt="">
+          <img src="assets/portfolio_6_ニクイボウズ様 CI_3.png" alt="">
+        </div>
+      </div>
+
+    </div>
+    <div class="works-more-btn-container reveal">
+      <button class="works-more-btn" id="worksMoreBtn">VIEW MORE</button>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+  <div class="section-inner about-inner">
+    <div class="about-content reveal">
+      <div class="section-label" style="color:#555">ABOUT</div>
+      <h2 class="about-name">DAI<span>FUK</span></h2>
+    </div>
+    <div class="about-info reveal" style="transition-delay:0.15s">
+      <div class="info-block" style="border-top: 1px solid #333; padding-top: 24px;">
+        <div class="info-name-en" style="font-family:'Bebas Neue', sans-serif; font-size:24px; letter-spacing:0.1em; color:var(--white);">YUTA KOBAYASHI</div>
+        <div class="info-name-ja" style="font-size:14px; color:#aaa; margin-bottom:16px; letter-spacing:0.1em;">小林 祐太</div>
+        <div class="info-label">クリエイティブディレクター／デザイナー</div>
+        <div class="info-value">
+          20年以上の広告経験をもとに、コンセプト設計からアウトプットまで一貫して手がける。<br>
+          採用・ブランディング・プロモーション領域で、成果につながるクリエイティブを提供。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+  <div class="contact-bg"></div>
+  <div class="section-inner contact-inner">
+    <div class="contact-content reveal">
+      <h2 class="contact-title">Let's Make<br>Something Fun.</h2>
+      <p class="contact-sub">
+        デザインのご相談、お見積もり、なんでもお気軽にご連絡ください。
+      </p>
+
+      <form action="mailto:kobayashi@daifuk.jp" method="POST" enctype="text/plain" class="contact-form">
+        <input type="text" name="会社名" placeholder="会社名" required>
+        <input type="text" name="お名前" placeholder="お名前" required>
+        <input type="email" name="メールアドレス" placeholder="メールアドレス" required>
+        <textarea name="お問い合わせ内容" placeholder="お問い合わせ内容" rows="5" required></textarea>
+        <button type="submit" class="submit-btn" formtarget="_blank">送信する</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-copy">© 2026 DAIFUK. All rights reserved.</div>
+</footer>
+
+<!-- Portfolio Modal -->
+<div class="works-modal" id="worksModal">
+  <div class="works-modal-overlay" onclick="closeWorksModal()"></div>
+  <button class="works-modal-close" onclick="closeWorksModal()">×</button>
+  <div class="works-modal-content" id="worksModalContent">
+    <!-- Gallery images injected here via JS -->
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
