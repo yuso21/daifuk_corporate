@@ -395,7 +395,7 @@ nav > * {
 }
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 .work-item {
@@ -716,4 +716,43 @@ footer {
   .works-grid { grid-template-columns: 1fr; }
   .about-inner { display: flex; flex-direction: column; }
   .contact-inner { margin-left: 0; width: 100%; }
+  
+  /* SP View More hiding */
+  .work-item.sp-hidden {
+    display: none !important;
+  }
+}
+
+/* View More Button for SP */
+.works-more-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+  width: 100%;
+}
+.works-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 48px;
+  background: none;
+  border: 1.5px solid var(--black);
+  color: var(--black);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 100px;
+}
+.works-more-btn:hover {
+  background: var(--black);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+@media (min-width: 901px) {
+  .works-more-btn-container {
+    display: none !important;
+  }
 }
