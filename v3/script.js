@@ -110,6 +110,71 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger scroll event once on load to ensure correct initial state
     window.dispatchEvent(new Event('scroll'));
   }
+
+  // SP View More Logic
+  const worksMoreBtn = document.getElementById('worksMoreBtn');
+  const workItems = document.querySelectorAll('.works-grid .work-item');
+  
+  function initSPWorks() {
+    if (window.innerWidth <= 900) {
+      if (workItems.length <= 6) {
+        workItems.forEach(item => {
+          item.classList.remove('sp-hidden');
+        });
+        if (worksMoreBtn) {
+          const btnContainer = document.querySelector('.works-more-btn-container');
+          if (btnContainer) btnContainer.style.display = 'none';
+          worksMoreBtn.style.display = 'none';
+        }
+        return;
+      }
+      workItems.forEach((item, index) => {
+        if (index >= 5) {
+          item.classList.add('sp-hidden');
+        } else {
+          item.classList.remove('sp-hidden');
+        }
+      });
+      if (worksMoreBtn) {
+        const btnContainer = document.querySelector('.works-more-btn-container');
+        if (btnContainer) btnContainer.style.display = 'flex';
+        worksMoreBtn.style.display = 'inline-flex';
+      }
+    } else {
+      workItems.forEach(item => {
+        item.classList.remove('sp-hidden');
+      });
+      if (worksMoreBtn) {
+        const btnContainer = document.querySelector('.works-more-btn-container');
+        if (btnContainer) btnContainer.style.display = 'none';
+        worksMoreBtn.style.display = 'none';
+      }
+    }
+  }
+
+  if (worksMoreBtn) {
+    worksMoreBtn.addEventListener('click', () => {
+      workItems.forEach(item => {
+        item.classList.remove('sp-hidden');
+        item.classList.add('reveal', 'visible');
+      });
+      const btnContainer = document.querySelector('.works-more-btn-container');
+      if (btnContainer) {
+        btnContainer.style.display = 'none';
+      }
+    });
+  }
+
+  // Run on load
+  initSPWorks();
+  
+  // Also run on resize to handle layout shifts cleanly
+  window.addEventListener('resize', () => {
+    const btnContainer = document.querySelector('.works-more-btn-container');
+    if (btnContainer && btnContainer.style.display !== 'none') {
+      initSPWorks();
+    }
+  });
 });
 
 // Works Modal Logic

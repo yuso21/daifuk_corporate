@@ -117,6 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function initSPWorks() {
     if (window.innerWidth <= 900) {
+      if (workItems.length <= 6) {
+        workItems.forEach(item => {
+          item.classList.remove('sp-hidden');
+        });
+        if (worksMoreBtn) {
+          const btnContainer = document.querySelector('.works-more-btn-container');
+          if (btnContainer) btnContainer.style.display = 'none';
+          worksMoreBtn.style.display = 'none';
+        }
+        return;
+      }
       workItems.forEach((item, index) => {
         if (index >= 5) {
           item.classList.add('sp-hidden');
