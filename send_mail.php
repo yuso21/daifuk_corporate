@@ -66,8 +66,8 @@ $headers[] = 'X-Mailer: PHP/' . phpversion();
 
 $headerString = implode("\r\n", $headers);
 
-// Send mail using standard PHP mail() with raw UTF-8 body bytes
-if (mail($to, $encoded_subject, $body, $headerString)) {
+// Send mail using standard PHP mail() with raw UTF-8 body bytes and envelope sender
+if (mail($to, $encoded_subject, $body, $headerString, '-f' . $from_email)) {
     echo json_encode(['success' => true]);
 } else {
     http_response_code(500);
