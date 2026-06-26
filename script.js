@@ -175,6 +175,26 @@ document.addEventListener('DOMContentLoaded', () => {
       initSPWorks();
     }
   });
+
+  // Contact Form Submission Handler
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const company = contactForm.querySelector('input[name="会社名"]').value;
+      const name = contactForm.querySelector('input[name="お名前"]').value;
+      const email = contactForm.querySelector('input[name="メールアドレス"]').value;
+      const content = contactForm.querySelector('textarea[name="お問い合わせ内容"]').value;
+      
+      const subject = '【DAIFUK】お問い合わせ';
+      const body = `会社名: ${company}\nお名前: ${name}\nメールアドレス: ${email}\n\nお問い合わせ内容:\n${content}`;
+      
+      const mailtoUrl = `mailto:kobayashi@daifuk.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      window.location.href = mailtoUrl;
+    });
+  }
 });
 
 // Works Modal Logic
