@@ -178,21 +178,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Contact Form Submission Handler
   const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
+  const contactSuccess = document.getElementById('contactSuccess');
+  const formError = document.getElementById('formError');
+  const submitBtn = document.getElementById('submitBtn');
+  
+  if (contactForm && contactSuccess && formError && submitBtn) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
+      // Clear previous errors
+      formError.style.display = 'none';
+      formError.textContent = '';
+      
+      // Get inputs
       const company = contactForm.querySelector('input[name="会社名"]').value;
       const name = contactForm.querySelector('input[name="お名前"]').value;
       const email = contactForm.querySelector('input[name="メールアドレス"]').value;
       const content = contactForm.querySelector('textarea[name="お問い合わせ内容"]').value;
       
-      const subject = '【DAIFUK】お問い合わせ';
-      const body = `会社名: ${company}\nお名前: ${name}\nメールアドレス: ${email}\n\nお問い合わせ内容:\n${content}`;
+      // Disable inputs and button
+      const inputs = contactForm.querySelectorAll('input, textarea');
+      inputs.forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中...';
       
-      const mailtoUrl = `mailto:kobayashi@daifuk.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const payload = {
+        company: company,
+        name: name,
+        email: email,
+        content: content
+      };
       
-      window.location.href = mailtoUrl;
+      // Check if testing locally via file protocol
+      const isLocalFile = window.location.protocol === 'file:';
+      
+      function showSuccess() {
+        contactForm.classList.add('fade-out');
+        setTimeout(() => {
+          contactForm.style.display = 'none';
+          contactSuccess.classList.add('active');
+        }, 400);
+      }
+      
+      function showError(msg) {
+        formError.textContent = msg;
+        formError.style.display = 'block';
+        inputs.forEach(el => el.disabled = false);
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
+      }
+      
+      // Local file testing mock
+      if (isLocalFile) {
+        console.warn('Local file protocol detected. Simulating form submission response...');
+        setTimeout(() => {
+          showSuccess();
+        }, 1200);
+        return;
+      }
+      
+      // Actual server send
+      fetch('send_mail.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => { throw new Error(err.error || '送信中にエラーが発生しました。'); });
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          showSuccess();
+        } else {
+          throw new Error(data.error || '送信中にエラーが発生しました。');
+        }
+      })
+      .catch(error => {
+        console.error('Submission error:', error);
+        // If testing on local server that doesn't support PHP, fallback to simulation
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          console.warn('Localhost detected without PHP support. Simulating success...');
+          setTimeout(() => {
+            showSuccess();
+          }, 1000);
+        } else {
+          showError(error.message || '接続エラーが発生しました。インターネット接続を確認するか、直接 kobayashi@daifuk.jp までご連絡ください。');
+        }
+      });
     });
   }
 });

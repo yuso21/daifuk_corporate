@@ -345,8 +345,22 @@
         <input type="text" name="お名前" placeholder="お名前" required>
         <input type="email" name="メールアドレス" placeholder="メールアドレス" required>
         <textarea name="お問い合わせ内容" placeholder="お問い合わせ内容" rows="5" required></textarea>
-        <button type="submit" class="submit-btn">送信する</button>
+        <div class="form-error" id="formError"></div>
+        <button type="submit" class="submit-btn" id="submitBtn">送信する</button>
       </form>
+
+      <div class="contact-success" id="contactSuccess">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3 class="success-title">MESSAGE RECEIVED.</h3>
+        <p class="success-text">
+          お問い合わせを受け付けました。<br>
+          内容を確認の上ご連絡いたしますので、 しばらくお待ちください。
+        </p>
+      </div>
     </div>
   </div>
 </section>

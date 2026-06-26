@@ -563,6 +563,93 @@ nav > * {
   background: #333;
   color: var(--white);
 }
+.submit-btn:disabled {
+  background: #888;
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-error {
+  display: none;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #ff3b30;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 8px;
+  background: rgba(255, 59, 48, 0.08);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.contact-form {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.contact-form.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.contact-success {
+  display: none;
+  opacity: 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 32px;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  margin-top: 32px;
+  transition: opacity 0.5s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: translateY(20px);
+}
+.contact-success.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: scale(0);
+}
+.contact-success.active .success-icon {
+  animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
+}
+
+.success-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.1em;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+.success-text {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #555;
+  font-weight: 400;
+}
+
+@keyframes successPop {
+  0% { transform: scale(0) rotate(-15deg); }
+  70% { transform: scale(1.1) rotate(10deg); }
+  85% { transform: scale(0.95) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
 
 /* Footer */
 footer {
