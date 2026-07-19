@@ -238,18 +238,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Actual server send
-      fetch('send_mail.php', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       })
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(err => { throw new Error(err.error || '送信中にエラーが発生しました。'); });
+      .then(async response => {
+        const responseText = await response.text();
+        let data;
+
+        try {
+          data = responseText ? JSON.parse(responseText) : null;
+        } catch {
+          throw new Error('送信サーバーから正しい応答が返されませんでした。時間をおいて再度お試しください。');
         }
-        return response.json();
+
+        if (!response.ok) {
+          throw new Error(data?.error || '送信中にエラーが発生しました。');
+        }
+
+        if (!data) {
+          throw new Error('送信サーバーから応答が返されませんでした。時間をおいて再度お試しください。');
+        }
+
+        return data;
       })
       .then(data => {
         if (data.success) {
