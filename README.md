@@ -54,6 +54,7 @@ The Function sends mail through Resend and always returns JSON:
 4. In **Cloudflare Dashboard → Workers & Pages → daifuk_corporate → Settings → Variables and Secrets**, add the following Production variables:
    - `RESEND_API_KEY`: add this as a secret.
    - `RESEND_FROM_EMAIL`: add this as a text variable, for example `DAIFUK <no-reply@send.daifuk.jp>`.
+   - `TURNSTILE_SECRET_KEY`: add this as a secret. Create the Turnstile widget for the production hostnames in Cloudflare before deploying.
 5. Redeploy the production branch after the variables are saved, then submit a real test inquiry and confirm delivery to `kobayashi@daifuk.jp` and the Reply-To address.
 
 Never commit either value to this repository. `RESEND_API_KEY` must remain a Cloudflare secret.

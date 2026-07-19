@@ -14,6 +14,26 @@ function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+async function verifyTurnstile(token, secret, remoteip) {
+  const formData = new URLSearchParams({ secret, response: token });
+
+  if (remoteip) {
+    formData.set('remoteip', remoteip);
+  }
+
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error(`Turnstile request failed with ${response.status}`);
+  }
+
+  return response.json();
+}
+
 export async function onRequestPost(context) {
   const contentType = context.request.headers.get('Content-Type') || '';
 
@@ -32,6 +52,7 @@ export async function onRequestPost(context) {
   const name = typeof input.name === 'string' ? input.name.trim() : '';
   const email = typeof input.email === 'string' ? input.email.trim() : '';
   const content = typeof input.content === 'string' ? input.content.trim() : '';
+  const turnstileToken = typeof input.turnstileToken === 'string' ? input.turnstileToken.trim() : '';
 
   if (!name || !email || !content) {
     return jsonResponse(
@@ -44,12 +65,33 @@ export async function onRequestPost(context) {
     return jsonResponse({ error: 'メールアドレスの形式が正しくありません。' }, 400);
   }
 
+  if (!turnstileToken) {
+    return jsonResponse({ error: '安全確認が完了していません。ページを再読み込みして、もう一度お試しください。' }, 403);
+  }
+
   const apiKey = context.env.RESEND_API_KEY;
   const from = context.env.RESEND_FROM_EMAIL;
+  const turnstileSecret = context.env.TURNSTILE_SECRET_KEY;
 
-  if (!apiKey || !from) {
-    console.error('Resend environment variables are not configured.');
+  if (!apiKey || !from || !turnstileSecret) {
+    console.error('Contact form environment variables are not configured.');
     return jsonResponse({ error: 'メール送信の設定が完了していません。' }, 500);
+  }
+
+  try {
+    const turnstileResult = await verifyTurnstile(
+      turnstileToken,
+      turnstileSecret,
+      context.request.headers.get('CF-Connecting-IP')
+    );
+
+    if (!turnstileResult.success) {
+      console.warn('Turnstile verification failed.', turnstileResult['error-codes']);
+      return jsonResponse({ error: '安全確認に失敗しました。ページを再読み込みして、もう一度お試しください。' }, 403);
+    }
+  } catch (error) {
+    console.error('Turnstile verification could not be completed.', error);
+    return jsonResponse({ error: '安全確認を完了できませんでした。時間をおいて再度お試しください。' }, 502);
   }
 
   const text = [

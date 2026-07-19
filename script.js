@@ -195,6 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = contactForm.querySelector('input[name="お名前"]').value;
       const email = contactForm.querySelector('input[name="メールアドレス"]').value;
       const content = contactForm.querySelector('textarea[name="お問い合わせ内容"]').value;
+      const turnstileToken = contactForm.querySelector('input[name="cf-turnstile-response"]')?.value;
+
+      if (!turnstileToken) {
+        formError.textContent = '安全確認が完了していません。しばらく待ってから、もう一度お試しください。';
+        formError.style.display = 'block';
+        return;
+      }
       
       // Disable inputs and button
       const inputs = contactForm.querySelectorAll('input, textarea');
@@ -206,7 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
         company: company,
         name: name,
         email: email,
-        content: content
+        content: content,
+        turnstileToken: turnstileToken
       };
       
       // Check if testing locally via file protocol
@@ -226,6 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach(el => el.disabled = false);
         submitBtn.disabled = false;
         submitBtn.textContent = '送信する';
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
       }
       
       // Local file testing mock
