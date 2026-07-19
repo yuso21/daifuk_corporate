@@ -371,7 +371,7 @@
         <input type="text" name="お名前" placeholder="お名前" required>
         <input type="email" name="メールアドレス" placeholder="メールアドレス" required>
         <textarea name="お問い合わせ内容" placeholder="お問い合わせ内容" rows="5" required></textarea>
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAD5IDUOdX_YdaNcQ"></div>
+        <div id="turnstileContainer" data-sitekey="0x4AAAAAAD5IDUOdX_YdaNcQ"></div>
         <div class="form-error" id="formError"></div>
         <button type="submit" class="submit-btn" id="submitBtn">送信する</button>
       </form>
@@ -406,7 +406,7 @@
   </div>
 </div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script src="script.js?v=20260719-turnstile"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+<script src="script.js?v=20260720-turnstile-invisible" defer></script>
 </body>
 </html>
