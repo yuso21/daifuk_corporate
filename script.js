@@ -181,42 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactSuccess = document.getElementById('contactSuccess');
   const formError = document.getElementById('formError');
   const submitBtn = document.getElementById('submitBtn');
-  const turnstileContainer = document.getElementById('turnstileContainer');
-  let turnstileWidgetId = null;
-
-  function resetTurnstile() {
-    if (turnstileWidgetId !== null && window.turnstile) {
-      window.turnstile.remove(turnstileWidgetId);
-      turnstileWidgetId = null;
-    }
-  }
-
-  function getTurnstileToken() {
-    return new Promise((resolve, reject) => {
-      if (!window.turnstile || !turnstileContainer) {
-        reject(new Error('安全確認を開始できませんでした。ページを再読み込みして、もう一度お試しください。'));
-        return;
-      }
-
-      resetTurnstile();
-      let settled = false;
-      const finish = (callback, value) => {
-        if (!settled) {
-          settled = true;
-          callback(value);
-        }
-      };
-
-      turnstileWidgetId = window.turnstile.render(turnstileContainer, {
-        sitekey: turnstileContainer.dataset.sitekey,
-        size: 'invisible',
-        callback: token => finish(resolve, token),
-        'error-callback': () => finish(reject, new Error('安全確認を完了できませんでした。時間をおいて再度お試しください。')),
-        'expired-callback': () => finish(reject, new Error('安全確認の有効期限が切れました。もう一度お試しください。'))
-      });
-      window.turnstile.execute(turnstileWidgetId);
-    });
-  }
   
   if (contactForm && contactSuccess && formError && submitBtn) {
     contactForm.addEventListener('submit', (e) => {
@@ -231,6 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = contactForm.querySelector('input[name="お名前"]').value;
       const email = contactForm.querySelector('input[name="メールアドレス"]').value;
       const content = contactForm.querySelector('textarea[name="お問い合わせ内容"]').value;
+      const turnstileToken = contactForm.querySelector('input[name="cf-turnstile-response"]')?.value;
+
+      if (!turnstileToken) {
+        formError.textContent = '安全確認が完了していません。しばらく待ってから、もう一度お試しください。';
+        formError.style.display = 'block';
+        return;
+      }
       
       // Disable inputs and button
       const inputs = contactForm.querySelectorAll('input, textarea');
@@ -238,11 +209,18 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       submitBtn.textContent = '送信中...';
       
+      const payload = {
+        company: company,
+        name: name,
+        email: email,
+        content: content,
+        turnstileToken: turnstileToken
+      };
+      
       // Check if testing locally via file protocol
       const isLocalFile = window.location.protocol === 'file:';
       
       function showSuccess() {
-        resetTurnstile();
         contactForm.classList.add('fade-out');
         setTimeout(() => {
           contactForm.style.display = 'none';
@@ -256,7 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach(el => el.disabled = false);
         submitBtn.disabled = false;
         submitBtn.textContent = '送信する';
-        resetTurnstile();
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
       }
       
       // Local file testing mock
@@ -269,14 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Actual server send
-      getTurnstileToken()
-      .then(turnstileToken => fetch('/api/contact', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ company, name, email, content, turnstileToken })
-      }))
+        body: JSON.stringify(payload)
+      })
       .then(async response => {
         const responseText = await response.text();
         let data;
