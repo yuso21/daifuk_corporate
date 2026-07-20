@@ -1,3 +1,7 @@
+window.onTurnstileLoad = () => {
+  window.dispatchEvent(new Event('turnstile-ready'));
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   // Custom cursor
   const cursor = document.getElementById('cursor');
@@ -181,80 +185,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactSuccess = document.getElementById('contactSuccess');
   const formError = document.getElementById('formError');
   const submitBtn = document.getElementById('submitBtn');
+  const turnstileContainer = document.getElementById('turnstileContainer');
   
-  if (contactForm && contactSuccess && formError && submitBtn) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      // Clear previous errors
-      formError.style.display = 'none';
-      formError.textContent = '';
-      
-      // Get inputs
-      const company = contactForm.querySelector('input[name="会社名"]').value;
-      const name = contactForm.querySelector('input[name="お名前"]').value;
-      const email = contactForm.querySelector('input[name="メールアドレス"]').value;
-      const content = contactForm.querySelector('textarea[name="お問い合わせ内容"]').value;
-      const turnstileToken = contactForm.querySelector('input[name="cf-turnstile-response"]')?.value;
+  if (contactForm && contactSuccess && formError && submitBtn && turnstileContainer) {
+    const inputs = contactForm.querySelectorAll('input, textarea');
+    const isLocalFile = window.location.protocol === 'file:';
+    let turnstileWidgetId;
+    let isSubmitting = false;
+    let isAwaitingToken = false;
+    let pendingPayload;
 
-      if (!turnstileToken) {
-        formError.textContent = '安全確認が完了していません。しばらく待ってから、もう一度お試しください。';
-        formError.style.display = 'block';
-        return;
+    function resetTurnstile() {
+      if (window.turnstile && turnstileWidgetId !== undefined) {
+        window.turnstile.reset(turnstileWidgetId);
       }
-      
-      // Disable inputs and button
-      const inputs = contactForm.querySelectorAll('input, textarea');
+    }
+
+    function restoreForm() {
+      isSubmitting = false;
+      isAwaitingToken = false;
+      pendingPayload = undefined;
+      inputs.forEach(el => el.disabled = false);
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する';
+    }
+
+    function showError(message, shouldReset = true) {
+      formError.textContent = message;
+      formError.style.display = 'block';
+      restoreForm();
+      if (shouldReset) resetTurnstile();
+    }
+
+    function showSuccess() {
+      contactForm.reset();
+      resetTurnstile();
+      contactForm.classList.add('fade-out');
+      setTimeout(() => {
+        contactForm.style.display = 'none';
+        contactSuccess.classList.add('active');
+      }, 400);
+    }
+
+    function sendContact(turnstileToken) {
+      if (!pendingPayload || isSubmitting) return;
+
+      isAwaitingToken = false;
+      isSubmitting = true;
       inputs.forEach(el => el.disabled = true);
       submitBtn.disabled = true;
       submitBtn.textContent = '送信中...';
-      
-      const payload = {
-        company: company,
-        name: name,
-        email: email,
-        content: content,
-        turnstileToken: turnstileToken
-      };
-      
-      // Check if testing locally via file protocol
-      const isLocalFile = window.location.protocol === 'file:';
-      
-      function showSuccess() {
-        contactForm.classList.add('fade-out');
-        setTimeout(() => {
-          contactForm.style.display = 'none';
-          contactSuccess.classList.add('active');
-        }, 400);
-      }
-      
-      function showError(msg) {
-        formError.textContent = msg;
-        formError.style.display = 'block';
-        inputs.forEach(el => el.disabled = false);
-        submitBtn.disabled = false;
-        submitBtn.textContent = '送信する';
-        if (window.turnstile) {
-          window.turnstile.reset();
-        }
-      }
-      
-      // Local file testing mock
-      if (isLocalFile) {
-        console.warn('Local file protocol detected. Simulating form submission response...');
-        setTimeout(() => {
-          showSuccess();
-        }, 1200);
-        return;
-      }
-      
-      // Actual server send
+
       fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ ...pendingPayload, turnstileToken })
       })
       .then(async response => {
         const responseText = await response.text();
@@ -285,16 +272,72 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(error => {
         console.error('Submission error:', error);
-        // If testing on local server that doesn't support PHP, fallback to simulation
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-          console.warn('Localhost detected without PHP support. Simulating success...');
-          setTimeout(() => {
-            showSuccess();
-          }, 1000);
-        } else {
-          showError(error.message || '接続エラーが発生しました。インターネット接続を確認するか、直接 kobayashi@daifuk.jp までご連絡ください。');
+        showError(error.message || '接続エラーが発生しました。インターネット接続を確認するか、直接 kobayashi@daifuk.jp までご連絡ください。');
+      });
+    }
+
+    function renderTurnstile() {
+      if (!window.turnstile || turnstileWidgetId !== undefined) return;
+
+      const sitekey = turnstileContainer.dataset.sitekey;
+
+      if (!sitekey) {
+        showError('安全確認の設定を読み込めませんでした。ページを再読み込みして、もう一度お試しください。', false);
+        return;
+      }
+
+      turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+        sitekey,
+        appearance: 'interaction-only',
+        execution: 'execute',
+        callback: (token) => {
+          if (isAwaitingToken && !isSubmitting) sendContact(token);
+        },
+        'error-callback': () => {
+          if (isAwaitingToken) showError('安全確認を完了できませんでした。もう一度お試しください。');
+        },
+        'expired-callback': () => {
+          if (isAwaitingToken) showError('安全確認の有効期限が切れました。もう一度お試しください。');
+        },
+        'timeout-callback': () => {
+          if (isAwaitingToken) showError('安全確認がタイムアウトしました。もう一度お試しください。');
         }
       });
+    }
+
+    if (window.turnstile) {
+      renderTurnstile();
+    } else {
+      window.addEventListener('turnstile-ready', renderTurnstile, { once: true });
+    }
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (isSubmitting || isAwaitingToken) return;
+
+      formError.style.display = 'none';
+      formError.textContent = '';
+      pendingPayload = {
+        company: contactForm.querySelector('input[name="会社名"]').value,
+        name: contactForm.querySelector('input[name="お名前"]').value,
+        email: contactForm.querySelector('input[name="メールアドレス"]').value,
+        content: contactForm.querySelector('textarea[name="お問い合わせ内容"]').value
+      };
+
+      if (isLocalFile) {
+        showSuccess();
+        return;
+      }
+
+      if (!window.turnstile || turnstileWidgetId === undefined) {
+        showError('安全確認を準備中です。少し待ってから、もう一度お試しください。', false);
+        return;
+      }
+
+      isAwaitingToken = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '安全確認中...';
+      window.turnstile.execute(turnstileWidgetId);
     });
   }
 });
